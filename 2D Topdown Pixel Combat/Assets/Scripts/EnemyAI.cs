@@ -11,10 +11,12 @@ public class EnemyAI : MonoBehaviour
 
     private State state;
     private EnemyPathfinding enemyPathFinding;
+    private SpriteRenderer mySpriteRenderer;
 
     private void Awake() 
     {
         enemyPathFinding = GetComponent<EnemyPathfinding>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
         state = State.Roaming;
     }
 
@@ -30,6 +32,17 @@ public class EnemyAI : MonoBehaviour
             Vector2 roamPosition = GetRoamingPosition();
             //Debug.Log(GetRoamingPosition());
             enemyPathFinding.MoveTo(roamPosition);
+
+            //flip sprite of the enemy
+            if (roamPosition.x < 0)
+            {
+                mySpriteRenderer.flipX = true;
+            }
+            else
+            {
+                mySpriteRenderer.flipX = false;
+            }
+
             yield return new WaitForSeconds(2f);
         }
     }
